@@ -178,8 +178,9 @@ document.addEventListener("DOMContentLoaded", async () => {
       currentSlideLabel.textContent = `${currentIndex} / ${total}`;
     };
 
+    // Wait for Reveal to be ready before updating slide info
+    Reveal.on("ready", updateFooterSlideInfo);
     Reveal.addEventListener("slidechanged", updateFooterSlideInfo);
-    updateFooterSlideInfo();
 
     Reveal.addEventListener("slidechanged", () => {
       const current = document.querySelector(".slides section.present .slide-content");
