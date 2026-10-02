@@ -1,6 +1,64 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const slidesContainer = document.getElementById("slides-container");
   const currentSlideLabel = document.getElementById("current-slide-label");
+  const ttsButton = document.getElementById("tts-button");
+
+  // Text-to-Speech Functionality with Arabic Support
+  function speakSelectedText() {
+    const selectedText = window.getSelection().toString().trim();
+    
+    if (!selectedText) {
+      alert("Please select some text first to convert to speech.");
+      return;
+    }
+
+    // Cancel any ongoing speech
+    window.speechSynthesis.cancel();
+
+    // Detect language (simple detection based on Arabic script)
+    const arabicRegex = /[\u0600-\u06FF]/g;
+    const isArabic = arabicRegex.test(selectedText);
+
+    const utterance = new SpeechSynthesisUtterance(selectedText);
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    // Set language based on detected text
+    if (isArabic) {
+      utterance.lang = 'ar-SA'; // Arabic (Saudi Arabia)
+    } else {
+      utterance.lang = 'en-US'; // English (US)
+    }
+
+    // Visual feedback
+    ttsButton.classList.add("speaking");
+    ttsButton.textContent = "🔊 Speaking...";
+
+    utterance.onend = () => {
+      ttsButton.classList.remove("speaking");
+      ttsButton.textContent = "🔊 Read Selected Text";
+    };
+
+    utterance.onerror = () => {
+      ttsButton.classList.remove("speaking");
+      ttsButton.textContent = "🔊 Read Selected Text";
+      console.error("Speech synthesis error:", utterance.error);
+    };
+
+    window.speechSynthesis.speak(utterance);
+  }
+
+  // Attach click listener to TTS button
+  ttsButton.addEventListener("click", speakSelectedText);
+
+  // Keyboard shortcut: Ctrl+Shift+S (or Cmd+Shift+S on Mac)
+  document.addEventListener("keydown", (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === "S") {
+      e.preventDefault();
+      speakSelectedText();
+    }
+  });
 
   try {
     const response = await fetch("activity.json");
