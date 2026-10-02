@@ -16,6 +16,19 @@
   <body>
     <a class="skip-link" href="#main-content">Skip to main content</a>
 
+    <button
+      id="tts-button"
+      class="tts-button"
+      type="button"
+      aria-label="Read selected text"
+      aria-keyshortcuts="Control+Shift+S"
+      aria-pressed="false"
+    >
+      🔊 Read Selected Text
+    </button>
+
+    <div id="tts-status" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
     <main id="main-content" class="page-shell" role="main">
       <div class="reveal" aria-live="polite" aria-atomic="true">
         <div class="slides" id="slides-container" aria-label="English lesson slides"></div>
