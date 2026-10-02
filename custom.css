@@ -57,6 +57,55 @@ textarea {
   left: 1rem;
 }
 
+/* Text-to-Speech Button Styles */
+.tts-button {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 1500;
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, var(--accent-strong), var(--accent));
+  color: #111;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(78, 193, 255, 0.3);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.tts-button:hover:not(.speaking) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(78, 193, 255, 0.5);
+  background: linear-gradient(135deg, #6eb5ff, var(--accent-strong));
+}
+
+.tts-button:active:not(.speaking) {
+  transform: translateY(0);
+}
+
+.tts-button:focus {
+  outline: var(--outline);
+  outline-offset: 2px;
+}
+
+.tts-button.speaking {
+  background: linear-gradient(135deg, var(--highlight), #ffd966);
+  color: #111;
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4px 12px rgba(255, 224, 130, 0.3);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(255, 224, 130, 0.6);
+  }
+}
+
 .page-shell {
   display: flex;
   flex-direction: column;
@@ -276,6 +325,11 @@ textarea {
     align-items: center;
     padding: 0.75rem 1rem;
   }
+
+  .tts-button {
+    top: 2rem;
+    right: 2rem;
+  }
 }
 
 @media (min-width: 980px) {
@@ -293,5 +347,9 @@ textarea {
     scroll-behavior: auto !important;
     animation: none !important;
     transition: none !important;
+  }
+
+  .tts-button {
+    animation: none !important;
   }
 }
